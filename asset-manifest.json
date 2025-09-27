@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/BitNBuild-25_Bytr/static/css/main.dc7295dd.css",
+    "main.js": "/BitNBuild-25_Bytr/static/js/main.a5ba7927.js",
+    "index.html": "/BitNBuild-25_Bytr/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.dc7295dd.css",
+    "static/js/main.a5ba7927.js"
+  ]
+}
