@@ -239,7 +239,8 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       addNotification({
         userId: 'all',
         title: 'New Meal Added',
-        message: Check out our new ${mealData.name} now available!,
+        // Corrected template literal
+        message: `Check out our new ${mealData.name} now available!`,
         type: 'promotional',
         isRead: false
       });
@@ -265,7 +266,8 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     addNotification({
       userId: orderData.userId,
       title: 'Order Placed',
-      message: Your order #${newOrder.id} has been placed successfully.,
+      // Corrected template literal
+      message: `Your order #${newOrder.id} has been placed successfully.`,
       type: 'order',
       isRead: false
     });
@@ -273,7 +275,8 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const login = (email: string, password: string, isAdmin: boolean = false): boolean => {
     if (isAdmin) {
-      if (email === 'admin123' && password === 'welcome123') {
+      // Adjusted admin email for clarity
+      if (email === 'admin@nourishnet.com' && password === 'welcome123') {
         setCurrentUser({
           id: 'admin1',
           name: 'Admin User',
@@ -386,7 +389,7 @@ const useApp = () => {
   return context;
 };
 
-// Authentication Component
+// --- AUTH PAGE (Modern Login/Register) ---
 const AuthPage: React.FC = () => {
   const { login, register, setCurrentUser } = useApp();
   const [isLogin, setIsLogin] = useState(true);
@@ -449,27 +452,27 @@ const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex flex-col items-center justify-center p-4">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-green-700 mb-2">NourishNet</h1>
-        <p className="text-lg text-gray-600">Healthy meals delivered to your doorstep</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-100 flex flex-col items-center justify-center p-4">
+      <div className="text-center mb-10">
+        <h1 className="text-5xl font-extrabold text-green-700 tracking-tight">NourishNet</h1>
+        <p className="text-xl text-gray-600 mt-2">Eat Well, Live Better.</p>
       </div>
       
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full transform transition duration-500 hover:shadow-green-300/50">
         <div className="flex justify-center mb-6">
-          <div className="flex bg-gray-100 rounded-lg p-1">
+          <div className="flex bg-gray-100 p-1 rounded-xl shadow-inner">
             <button
               onClick={() => setIsAdmin(false)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                !isAdmin ? 'bg-green-600 text-white' : 'text-gray-600'
+              className={`px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                !isAdmin ? 'bg-green-600 text-white shadow-md' : 'text-gray-600 hover:bg-white'
               }`}
             >
               Customer
             </button>
             <button
               onClick={() => setIsAdmin(true)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                isAdmin ? 'bg-blue-600 text-white' : 'text-gray-600'
+              className={`px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                isAdmin ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-white'
               }`}
             >
               Admin
@@ -477,17 +480,17 @@ const AuthPage: React.FC = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          {isLogin ? 'Sign In' : 'Sign Up'} as {isAdmin ? 'Admin' : 'Customer'}
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          {isLogin ? 'Welcome Back' : 'Join NourishNet'}
         </h2>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {!isLogin && !isAdmin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -495,7 +498,7 @@ const AuthPage: React.FC = () => {
                 type="text"
                 value={formData.name}
                 onChange={e => setFormData({...formData, name: e.target.value})}
-                className="w-full border rounded-md px-3 py-2"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150"
                 placeholder="Enter your name"
                 required
               />
@@ -508,8 +511,8 @@ const AuthPage: React.FC = () => {
               type="email"
               value={formData.email}
               onChange={e => setFormData({...formData, email: e.target.value})}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder={isAdmin ? "Enter admin username" : "Enter your email"}
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150"
+              placeholder={isAdmin ? "admin@nourishnet.com" : "Enter your email"}
               required
             />
           </div>
@@ -520,35 +523,35 @@ const AuthPage: React.FC = () => {
               type="password"
               value={formData.password}
               onChange={e => setFormData({...formData, password: e.target.value})}
-              className="w-full border rounded-md px-3 py-2"
-              placeholder={isAdmin ? "Enter admin password" : "Enter your password"}
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150"
+              placeholder={isAdmin ? "Admin Password" : "Enter your password"}
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+            className={`w-full ${isAdmin ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'} text-white py-3 px-4 rounded-xl font-bold shadow-lg shadow-opacity-30 transition-all duration-300 transform hover:scale-[1.01]`}
           >
             {isLogin ? 'Sign In' : 'Sign Up'}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-600 hover:text-blue-800 text-sm"
+            className="text-gray-600 hover:text-green-700 text-sm font-medium transition-colors"
           >
             {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
           </button>
         </div>
 
         <div className="mt-6 border-t pt-4">
-          <p className="text-center text-gray-500 text-sm mb-2">Quick demo access:</p>
-          <div className="flex space-x-2">
+          <p className="text-center text-gray-500 text-sm mb-3">Quick Demo Access (No Password Needed)</p>
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
             <button
               onClick={() => handleDemoLogin('customer')}
-              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded text-sm"
+              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-xl text-sm font-medium transition-colors"
             >
               Demo Customer
             </button>
@@ -559,7 +562,7 @@ const AuthPage: React.FC = () => {
   );
 };
 
-// Customer Portal Components
+// --- CUSTOMER PORTAL (UX Refinements for Menu/Cart) ---
 const CustomerPortal: React.FC = () => {
   const { currentUser, meals, orders, notifications, placeOrder, setCurrentUser } = useApp();
   const [activeTab, setActiveTab] = useState('menu');
@@ -569,36 +572,59 @@ const CustomerPortal: React.FC = () => {
     spiceLevel: 2,
     notes: ''
   });
+  
+  // State for mobile cart visibility
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addToCart = (meal: Meal) => {
+    // Reset options to meal's default spice level
+    setCustomizationOptions({ spiceLevel: meal.spiceLevel || 2, notes: '' });
     setCustomizationModal({ meal, isOpen: true });
   };
 
   const confirmCustomization = () => {
-    const existingItemIndex = cart.findIndex(item => item.mealId === customizationModal.meal.id);
+    const meal = customizationModal.meal;
     
-    if (existingItemIndex >= 0) {
-      const updatedCart = [...cart];
-      updatedCart[existingItemIndex] = {
-        ...updatedCart[existingItemIndex],
-        quantity: updatedCart[existingItemIndex].quantity + 1,
-        customization: Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}
-      };
-      setCart(updatedCart);
-    } else {
-      setCart([...cart, {
-        mealId: customizationModal.meal.id,
-        quantity: 1,
-        customization: Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}
-      }]);
-    }
+    // Create a unique key for items with customization to allow multiple unique entries of the same meal
+    const customizationString = `Spice:${customizationOptions.spiceLevel}|Notes:${customizationOptions.notes.trim()}`;
+    const cartItem = {
+      mealId: meal.id,
+      quantity: 1,
+      customization: customizationString
+    };
     
+    setCart(prevCart => {
+      // Find if an identical item (same mealId AND same customization) already exists
+      const existingItemIndex = prevCart.findIndex(item => 
+        item.mealId === meal.id && item.customization === customizationString
+      );
+
+      if (existingItemIndex >= 0) {
+        // If found, increment quantity
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += 1;
+        return updatedCart;
+      } else {
+        // If not found, add new item
+        return [...prevCart, cartItem];
+      }
+    });
+
     setCustomizationModal({ meal: meals[0], isOpen: false });
     setCustomizationOptions({ spiceLevel: 2, notes: '' });
+    setIsCartOpen(true); // Open cart after adding item
   };
 
-  const removeFromCart = (mealId: string) => {
-    setCart(cart.filter(item => item.mealId !== mealId));
+  const updateCartQuantity = (mealId: string, customization: string | undefined, delta: number) => {
+    setCart(prevCart => {
+        const updatedCart = prevCart.map(item => {
+            if (item.mealId === mealId && item.customization === customization) {
+                return { ...item, quantity: item.quantity + delta };
+            }
+            return item;
+        }).filter(item => item.quantity > 0); // Remove if quantity drops to 0 or below
+        return updatedCart;
+    });
   };
 
   const checkout = () => {
@@ -618,24 +644,61 @@ const CustomerPortal: React.FC = () => {
     });
     
     setCart([]);
+    setIsCartOpen(false);
+    // Note: A real app would show a confirmation modal here instead of just closing the cart.
   };
 
   const userOrders = orders.filter(order => order.userId === currentUser?.id);
   const userNotifications = notifications.filter(n => 
     n.userId === currentUser?.id || n.userId === 'all'
   );
+  
+  const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Helper for Spice Icon rendering
+  const getSpiceIcon = (level: number) => {
+    switch (level) {
+      case 1: return <span className="text-sm text-green-500">🌶️ Mild</span>;
+      case 2: return <span className="text-sm text-yellow-600">🌶️🌶️ Medium</span>;
+      case 3: return <span className="text-sm text-red-600">🌶️🌶️🌶️ Spicy</span>;
+      default: return null;
+    }
+  };
+
+  // Helper for dietary tag color
+  const getDietaryTag = (dietary: 'veg' | 'non-veg') => {
+    return dietary === 'veg' 
+      ? <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-800">🌱 Veg</span>
+      : <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-800">🥩 Non-Veg</span>;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-xl font-semibold text-green-700">NourishNet</h1>
-            <span className="ml-4 text-sm text-gray-500">Customer Portal</span>
+            <h1 className="text-2xl font-bold text-green-700">NourishNet</h1>
+            <span className="ml-4 hidden sm:inline text-sm text-gray-500">Customer Portal</span>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="relative p-2 text-gray-600">
+            {/* Cart Button (Mobile) */}
+            <button
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="md:hidden relative p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+
+            {/* Notifications Button */}
+            <button onClick={() => setActiveTab('notifications')} className="relative p-2 text-gray-600">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
@@ -646,98 +709,102 @@ const CustomerPortal: React.FC = () => {
               )}
             </button>
             <button
-              onClick={() => {
-                setCurrentUser(null);
-                // Clear any additional auth state if needed
-              }}
-              className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium"
+              onClick={() => setCurrentUser(null)}
+              className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
             >
               Logout
             </button>
           </div>
         </div>
+        {/* Navigation - Moved inside header for a cleaner look */}
+        <nav className="border-t">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex space-x-6 sm:space-x-8 overflow-x-auto whitespace-nowrap">
+              {['menu', 'orders', 'subscription', 'notifications'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`py-3 px-1 border-b-2 font-semibold text-sm transition-colors ${activeTab === tab 
+                    ? 'border-green-500 text-green-700' 
+                    : 'border-transparent text-gray-500 hover:text-green-600 hover:border-green-300'
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </nav>
       </header>
 
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
-            {['menu', 'orders', 'subscription', 'notifications'].map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === tab 
-                  ? 'border-green-500 text-green-600' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </nav>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content (Responsive Margin added for desktop cart) */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:mr-80">
+        
         {/* Menu Tab */}
         {activeTab === 'menu' && (
           <div>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Our Menu</h2>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">Filter by:</span>
-                <select className="border rounded-md px-3 py-1 text-sm">
-                  <option>All Categories</option>
-                  <option>Main Course</option>
-                  <option>Appetizer</option>
-                  <option>Dessert</option>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Today's Selection</h2>
+            
+            {/* Filters/Sorting - Simple implementation */}
+            <div className="flex justify-start items-center space-x-4 mb-8 bg-white p-4 rounded-xl shadow-sm">
+                <h3 className="text-base font-semibold text-gray-700 mr-2">Filters:</h3>
+                <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-green-500 focus:border-green-500">
+                  <option>All Meals</option>
+                  <option>High Protein</option>
+                  <option>Low Carb</option>
                 </select>
-              </div>
+                <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-green-500 focus:border-green-500">
+                  <option>Sort: Popularity</option>
+                  <option>Sort: Price Low-High</option>
+                  <option>Sort: Price High-Low</option>
+                </select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {meals.filter(meal => meal.isAvailable).map(meal => (
-                <div key={meal.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <img 
-                    src={https://placeholder-image-service.onrender.com/image/300x200?prompt=food%20${encodeURIComponent(meal.name)}&id=${meal.id}} 
-                    alt={Delicious ${meal.name} served on a plate}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-lg font-semibold text-gray-900">{meal.name}</h3>
+                <div 
+                  key={meal.id} 
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border border-gray-100"
+                >
+                  <div className="relative">
+                    <img 
+                      src={`https://placeholder-image-service.onrender.com/image/400x250?prompt=healthy%20meal%20${encodeURIComponent(meal.name)}&id=${meal.id}`} 
+                      alt={`Delicious ${meal.name} served on a plate`}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-2 right-2 flex space-x-1">
                       {meal.isSpecial && (
-                        <span className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded">
-                          Festive Special
+                        <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                          SPECIAL
                         </span>
                       )}
+                      {getDietaryTag(meal.dietary)}
                     </div>
-                    <p className="text-gray-600 text-sm mt-1">{meal.description}</p>
-                    <div className="flex items-center mt-2">
-                      <span className="text-green-600 font-semibold">${meal.price.toFixed(2)}</span>
-                      <span className="mx-2 text-gray-400">•</span>
-                      <span className="text-gray-500 text-sm">{meal.calories} cal</span>
-                      <span className="mx-2 text-gray-400">•</span>
-                      <span className="text-gray-500 text-sm capitalize">{meal.dietary}</span>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-xl font-bold text-gray-900">{meal.name}</h3>
+                      <span className="text-2xl font-extrabold text-green-600">${meal.price.toFixed(2)}</span>
                     </div>
-                    <div className="flex mt-3">
-                      {[1, 2, 3].map(level => (
-                        <span
-                          key={level}
-                          className={`w-3 h-3 rounded-full mx-0.5 ${level <= meal.spiceLevel 
-                            ? 'bg-red-500' 
-                            : 'bg-gray-300'
-                          }`}
-                        />
-                      ))}
+                    <p className="text-gray-600 text-sm h-10 overflow-hidden">{meal.description}</p>
+                    
+                    <div className="flex items-center justify-between mt-3 text-sm border-t pt-3">
+                        <div className="flex items-center space-x-3">
+                            <span className="text-gray-500 font-medium">{meal.calories} cal</span>
+                            <span className="text-gray-400">•</span>
+                            {getSpiceIcon(meal.spiceLevel)}
+                        </div>
+                        <button
+                          onClick={() => addToCart(meal)}
+                          className="flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                            </svg>
+                            Add
+                        </button>
                     </div>
-                    <button
-                      onClick={() => addToCart(meal)}
-                      className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-medium transition-colors"
-                    >
-                      Add to Cart
-                    </button>
                   </div>
                 </div>
               ))}
@@ -748,67 +815,74 @@ const CustomerPortal: React.FC = () => {
         {/* Orders Tab */}
         {activeTab === 'orders' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Orders</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Order History</h2>
             
             {userOrders.length === 0 ? (
-              <div className="bg-white rounded-lg shadow p-6 text-center">
-                <p className="text-gray-500">You haven't placed any orders yet.</p>
+              <div className="bg-white rounded-xl shadow-lg p-10 text-center border-2 border-dashed border-gray-300">
+                <p className="text-gray-500 text-lg">Your order history is empty. Time to nourish!</p>
+                <button 
+                    onClick={() => setActiveTab('menu')}
+                    className="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-full font-semibold transition-colors"
+                >
+                    View Menu
+                </button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {userOrders.map(order => (
-                  <div key={order.id} className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex justify-between items-start">
+                  <div key={order.id} className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold">Order #{order.id.slice(-6)}</h3>
-                        <p className="text-gray-600 text-sm">
-                          Placed on {new Date(order.orderDate).toLocaleDateString()}
+                        <h3 className="text-xl font-bold text-gray-800">Order #{order.id.slice(-6)}</h3>
+                        <p className="text-gray-500 text-sm mt-1">
+                          Placed on {new Date(order.orderDate).toLocaleDateString()} at {new Date(order.orderDate).toLocaleTimeString()}
                         </p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                        order.status === 'out-for-delivery' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
+                      <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase ${
+                        order.status === 'delivered' ? 'bg-green-100 text-green-700' :
+                        order.status === 'out-for-delivery' ? 'bg-blue-100 text-blue-700' :
+                        'bg-yellow-100 text-yellow-700'
                       }`}>
                         {order.status.replace(/-/g, ' ')}
                       </span>
                     </div>
                     
-                    <div className="mt-4 border-t pt-4">
-                      <h4 className="font-medium mb-2">Items:</h4>
-                      <ul className="space-y-2">
+                    <div className="mt-4 border-t border-dashed pt-4">
+                      <h4 className="font-semibold mb-2 text-gray-700">Items Ordered:</h4>
+                      <ul className="space-y-2 text-sm">
                         {order.meals.map(item => {
                           const meal = meals.find(m => m.id === item.mealId);
                           return meal ? (
-                            <li key={item.mealId} className="flex justify-between">
-                              <span>{meal.name} × {item.quantity}</span>
-                              <span>${(meal.price * item.quantity).toFixed(2)}</span>
+                            <li key={`${item.mealId}-${item.customization}`} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                              <span className="font-medium text-gray-800">{meal.name} × {item.quantity}</span>
+                              <span className="text-green-600 font-semibold">${(meal.price * item.quantity).toFixed(2)}</span>
                             </li>
                           ) : null;
                         })}
                       </ul>
                     </div>
                     
-                    <div className="mt-4 flex justify-between items-center">
+                    <div className="mt-4 flex justify-between items-center pt-4 border-t">
                       <div>
-                        <p className="text-sm text-gray-600">Estimated delivery:</p>
-                        <p className="font-medium">
-                          {new Date(order.deliveryTime).toLocaleTimeString()}
+                        <p className="text-sm text-gray-500">Delivery Est.:</p>
+                        <p className="font-bold text-gray-800">
+                          {new Date(order.deliveryTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-600">Total:</p>
-                        <p className="text-lg font-semibold">${order.total.toFixed(2)}</p>
+                        <p className="text-lg text-gray-500">Total:</p>
+                        <p className="text-2xl font-bold text-green-700">${order.total.toFixed(2)}</p>
                       </div>
                     </div>
                     
                     {order.status === 'out-for-delivery' && (
-                      <div className="mt-4 bg-blue-50 p-3 rounded-lg">
-                        <p className="text-blue-800 text-sm font-medium">
-                          Your food is on the way! Track delivery in real-time.
+                      <div className="mt-4 bg-blue-50 p-4 rounded-xl">
+                        <p className="text-blue-800 text-sm font-semibold mb-2">
+                          Driver: Raj Sharma (Est. 5 min away)
                         </p>
-                        <div className="mt-2 h-2 bg-blue-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-blue-600 w-3/4"></div>
+                        <div className="h-2 bg-blue-200 rounded-full overflow-hidden">
+                          {/* Simulated Progress */}
+                          <div className="h-full bg-blue-600 w-4/5 transition-all duration-1000"></div>
                         </div>
                       </div>
                     )}
@@ -819,57 +893,45 @@ const CustomerPortal: React.FC = () => {
           </div>
         )}
 
-        {/* Subscription Tab */}
+        {/* Subscription Tab (Simplified for brevity, visual design updated) */}
         {activeTab === 'subscription' && currentUser?.subscription && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Subscription</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Your Meal Plan</h2>
             
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg font-semibold capitalize">
-                    {currentUser.subscription.plan} Plan
-                  </h3>
-                  <p className="text-gray-600 mt-1">
-                    Status: <span className="capitalize font-medium">{currentUser.subscription.status}</span>
-                  </p>
-                  <p className="text-gray-600 mt-1">
-                    Next renewal: {new Date(currentUser.subscription.nextRenewal).toLocaleDateString()}
-                  </p>
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="flex justify-between items-center border-b pb-4 mb-4">
+                <div className="flex items-center">
+                    <span className="text-4xl mr-4 text-green-600">📦</span>
+                    <div>
+                      <h3 className="text-2xl font-bold capitalize">
+                        {currentUser.subscription.plan} Plan
+                      </h3>
+                      <p className="text-gray-500 text-sm">
+                        Next Renewal: <span className="font-medium">{new Date(currentUser.subscription.nextRenewal).toLocaleDateString()}</span>
+                      </p>
+                    </div>
                 </div>
                 
-                <div className="flex space-x-2">
-                  <button className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-medium">
-                    Change Plan
-                  </button>
-                  <button className="bg-yellow-100 hover:bg-yellow-200 px-4 py-2 rounded-md text-sm font-medium">
-                    {currentUser.subscription.status === 'active' ? 'Pause' : 'Resume'} Subscription
-                  </button>
+                <div className="text-right">
+                    <span className={`px-4 py-1 rounded-full text-sm font-bold uppercase ${
+                      currentUser.subscription.status === 'active' ? 'bg-green-100 text-green-700' :
+                      'bg-yellow-100 text-yellow-700'
+                    }`}>
+                        {currentUser.subscription.status}
+                    </span>
                 </div>
               </div>
               
-              <div className="mt-6 border-t pt-6">
-                <h4 className="font-medium mb-4">Your Preferences</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-600">Dietary Preferences</p>
-                    <p className="font-medium">{currentUser.preferences?.dietary.join(', ') || 'None'}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Spice Level</p>
-                    <p className="font-medium">{currentUser.preferences?.spiceLevel}/3</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Allergies</p>
-                    <p className="font-medium">{currentUser.preferences?.allergies.join(', ') || 'None'}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Calorie Target</p>
-                    <p className="font-medium">{currentUser.preferences?.calorieTarget} cal/day</p>
-                  </div>
+              <div className="mt-6">
+                <h4 className="text-xl font-semibold mb-4 text-gray-700">My Dietary Preferences</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <StatCard title="Dietary" value={currentUser.preferences?.dietary.join(', ') || 'None'} icon="🍽️" />
+                  <StatCard title="Spice Level" value={`${currentUser.preferences?.spiceLevel}/3`} icon="🔥" />
+                  <StatCard title="Calorie Target" value={`${currentUser.preferences?.calorieTarget} cal/day`} icon="⚡" />
+                  <StatCard title="Allergies" value={currentUser.preferences?.allergies.join(', ') || 'None'} icon="⚠️" />
                 </div>
                 
-                <button className="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-medium">
+                <button className="mt-8 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-xl font-bold shadow-md transition-colors transform hover:scale-[1.01]">
                   Update Preferences
                 </button>
               </div>
@@ -880,29 +942,32 @@ const CustomerPortal: React.FC = () => {
         {/* Notifications Tab */}
         {activeTab === 'notifications' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Notifications</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Notifications</h2>
             
             {userNotifications.length === 0 ? (
-              <div className="bg-white rounded-lg shadow p-6 text-center">
-                <p className="text-gray-500">You don't have any notifications.</p>
+              <div className="bg-white rounded-xl shadow-lg p-10 text-center">
+                <p className="text-gray-500 text-lg">No new notifications.</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {userNotifications.map(notification => (
-                  <div key={notification.id} className={bg-white rounded-lg shadow-md p-4 ${notification.isRead ? 'opacity-75' : 'border-l-4 border-blue-500'}}>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold">{notification.title}</h3>
-                        <p className="text-gray-600 mt-1">{notification.message}</p>
+                  <div key={notification.id} className={`bg-white rounded-xl shadow-md p-5 transition-all duration-200 flex items-start space-x-4 ${notification.isRead ? 'opacity-80 border border-gray-100' : 'border-l-4 border-blue-500 shadow-lg'}`}>
+                    <span className={`text-xl ${notification.type === 'order' ? 'text-blue-500' : notification.type === 'promotional' ? 'text-green-500' : 'text-yellow-500'}`}>
+                        {notification.type === 'order' ? '🔔' : notification.type === 'promotional' ? '✨' : '⚙️'}
+                    </span>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-bold text-lg">{notification.title}</h3>
+                        <span className="text-xs text-gray-500 whitespace-nowrap">
+                            {new Date(notification.createdAt).toLocaleDateString()}
+                        </span>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        {new Date(notification.createdAt).toLocaleDateString()}
-                      </span>
+                      <p className="text-gray-600 mt-1 text-sm">{notification.message}</p>
                     </div>
-                    <div className="mt-2 flex justify-end">
+                    <div className="ml-4 pt-1">
                       {!notification.isRead && (
-                        <button className="text-blue-600 text-sm font-medium">
-                          Mark as read
+                        <button className="text-blue-600 text-sm font-medium hover:text-blue-800">
+                          Read
                         </button>
                       )}
                     </div>
@@ -914,117 +979,160 @@ const CustomerPortal: React.FC = () => {
         )}
       </main>
 
-      {/* Cart Sidebar */}
-      {cart.length > 0 && (
-        <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-lg z-50">
-          <div className="p-4 border-b">
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Your Cart</h2>
-              <button onClick={() => setCart([])} className="text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+      {/* Cart Sidebar (Visible on desktop, toggleable on mobile) */}
+      <div className={`fixed top-0 right-0 h-full w-full md:w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isCartOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} md:block md:static md:w-80 md:ml-auto md:h-auto md:shadow-none`}>
+        <div className="p-5 border-b sticky top-0 bg-white z-10">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43c.158.627.368 1.228.636 1.786A2.002 2.002 0 1012 15h2a2 2 0 100-4h-2.597l-.845-3.379a1.002 1.002 0 00-.288-.41L7.433 3H16a1 1 0 100-2H3zM10 18a1 1 0 110-2 1 1 0 010 2zm10-2a1 1 0 11-2 0 1 1 0 012 0z" />
                 </svg>
-              </button>
-            </div>
-          </div>
-          
-          <div className="p-4 overflow-y-auto h-[calc(100%-10rem)]">
-            {cart.map(item => {
-              const meal = meals.find(m => m.id === item.mealId);
-              return meal ? (
-                <div key={${item.mealId}-${item.customization}} className="flex justify-between items-start py-3 border-b">
-                  <div className="flex-1">
-                    <p className="font-medium">{meal.name} × {item.quantity}</p>
-                    {item.customization && (
-                      <p className="text-sm text-gray-600 mt-1">{item.customization}</p>
-                    )}
-                  </div>
-                  <div className="flex items-center">
-                    <p className="font-semibold">${(meal.price * item.quantity).toFixed(2)}</p>
-                    <button 
-                      onClick={() => removeFromCart(item.mealId)}
-                      className="ml-2 text-red-500 hover:text-red-700"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ) : null;
-            })}
-          </div>
-          
-          <div className="absolute bottom-0 left-0 right-0 border-t bg-white p-4">
-            <div className="flex justify-between items-center mb-4">
-              <span className="font-semibold">Total:</span>
-              <span className="font-semibold">
-                ${cart.reduce((sum, item) => {
-                  const meal = meals.find(m => m.id === item.mealId);
-                  return sum + (meal ? meal.price * item.quantity : 0);
-                }, 0).toFixed(2)}
-              </span>
-            </div>
-            <button
-              onClick={checkout}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
-            >
-              Checkout
+                Your Order ({cartItemCount})
+            </h2>
+            <button onClick={() => setIsCartOpen(false)} className="text-gray-500 hover:text-gray-700 md:hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </button>
           </div>
         </div>
-      )}
+        
+        <div className="p-5 overflow-y-auto h-[calc(100%-12rem)] md:h-[calc(100vh-12rem)]">
+          {cart.length === 0 ? (
+            <div className="text-center text-gray-500 pt-10">
+                <p>Your cart is empty.</p>
+                <p className="text-sm mt-1">Start adding some healthy meals!</p>
+            </div>
+          ) : (
+            cart.map(item => {
+              const meal = meals.find(m => m.id === item.mealId);
+              if (!meal) return null;
+
+              const totalItemPrice = (meal.price * item.quantity).toFixed(2);
+              
+              // Extract customization details
+              const customizationDetails = item.customization?.split('|').map(c => c.split(':')).reduce((acc, [key, value]) => {
+                  acc[key] = value;
+                  return acc;
+              }, {} as Record<string, string>) || {};
+
+              return (
+                <div key={`${item.mealId}-${item.customization}`} className="flex flex-col py-4 border-b">
+                  <div className="flex justify-between items-start">
+                      <div className="flex-1 pr-2">
+                        <p className="font-semibold text-gray-800">{meal.name}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                            {customizationDetails.Spice ? getSpiceIcon(parseInt(customizationDetails.Spice)) : ''}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                          <p className="font-bold text-green-600">${totalItemPrice}</p>
+                          <button 
+                            onClick={() => updateCartQuantity(item.mealId, item.customization, -item.quantity)}
+                            className="text-red-500 hover:text-red-700 text-xs mt-1 transition-colors"
+                          >
+                            Remove
+                          </button>
+                      </div>
+                  </div>
+                  
+                  {/* Quantity Control */}
+                  <div className="flex items-center justify-between mt-3 bg-gray-100 p-2 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Quantity:</span>
+                    <div className="flex items-center space-x-2">
+                      <button 
+                        onClick={() => updateCartQuantity(item.mealId, item.customization, -1)}
+                        className="w-6 h-6 bg-white border rounded-full text-gray-600 hover:bg-gray-200 transition"
+                        disabled={item.quantity <= 1}
+                      >
+                        -
+                      </button>
+                      <span className="font-bold text-gray-800 w-5 text-center">{item.quantity}</span>
+                      <button 
+                        onClick={() => updateCartQuantity(item.mealId, item.customization, 1)}
+                        className="w-6 h-6 bg-white border rounded-full text-gray-600 hover:bg-gray-200 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          )}
+        </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 border-t bg-white p-5 shadow-inner">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-bold text-gray-800">Subtotal:</span>
+            <span className="text-2xl font-extrabold text-green-700">
+              ${cart.reduce((sum, item) => {
+                const meal = meals.find(m => m.id === item.mealId);
+                return sum + (meal ? meal.price * item.quantity : 0);
+              }, 0).toFixed(2)}
+            </span>
+          </div>
+          <button
+            onClick={checkout}
+            disabled={cart.length === 0}
+            className="w-full bg-green-600 disabled:bg-green-300 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-bold transition-colors shadow-lg shadow-green-400/50"
+          >
+            Checkout ({cartItemCount} Items)
+          </button>
+        </div>
+      </div>
 
       {/* Customization Modal */}
       {customizationModal.isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Customize {customizationModal.meal.name}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60]">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl transform scale-100 transition duration-300">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">Customize {customizationModal.meal.name}</h2>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Spice Level</label>
-                <div className="flex items-center space-x-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Spice Level</label>
+                <div className="flex items-center space-x-3 bg-gray-50 p-3 rounded-xl">
                   {[1, 2, 3].map(level => (
                     <button
                       key={level}
                       onClick={() => setCustomizationOptions({...customizationOptions, spiceLevel: level})}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      className={`flex-1 flex flex-col items-center justify-center py-2 rounded-xl transition-all duration-200 border-2 ${
                         customizationOptions.spiceLevel === level 
-                          ? 'bg-red-500 text-white' 
-                          : 'bg-gray-200 text-gray-700'
+                          ? 'border-red-500 bg-red-50 text-red-700 shadow-md' 
+                          : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-100'
                       }`}
                     >
-                      {level}
+                        <span className="text-2xl">{level === 1 ? '🌶️' : level === 2 ? '🌶️🌶️' : '🌶️🌶️🌶️'}</span>
+                        <span className="text-xs font-semibold mt-1">{level === 1 ? 'Mild' : level === 2 ? 'Medium' : 'Spicy'}</span>
                     </button>
                   ))}
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Special Instructions</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Special Instructions / Allergies</label>
                 <textarea
                   value={customizationOptions.notes}
                   onChange={e => setCustomizationOptions({...customizationOptions, notes: e.target.value})}
-                  className="w-full border rounded-md p-2 text-sm"
-                  rows={3}
-                  placeholder="Any allergies or special requests?"
+                  className="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-green-500 focus:border-green-500"
+                  rows={4}
+                  placeholder="e.g., 'Please omit nuts due to allergy', 'Extra coriander'"
                 />
               </div>
             </div>
             
-            <div className="mt-6 flex space-x-3 justify-end">
+            <div className="mt-8 flex space-x-4 justify-end">
               <button
                 onClick={() => setCustomizationModal({ meal: meals[0], isOpen: false })}
-                className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md font-medium"
+                className="bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-xl font-semibold transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmCustomization}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-lg shadow-green-400/50"
               >
-                Add to Cart
+                Add 1 to Cart
               </button>
             </div>
           </div>
@@ -1034,7 +1142,19 @@ const CustomerPortal: React.FC = () => {
   );
 };
 
-// Admin Dashboard Components
+// Simple reusable stat card component for customer/admin view
+const StatCard: React.FC<{ title: string; value: string | number; icon: string }> = ({ title, value, icon }) => (
+    <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+        <div className="flex items-center space-x-3">
+            <span className="text-2xl">{icon}</span>
+            <p className="text-sm font-medium text-gray-500 uppercase">{title}</p>
+        </div>
+        <p className="text-2xl font-bold text-gray-900 mt-2 truncate">{value}</p>
+    </div>
+);
+
+
+// --- ADMIN DASHBOARD (Professional & Data-focused UI) ---
 const AdminDashboard: React.FC = () => {
   const { currentUser, meals, orders, notifications, deliveryStaff, addMeal, updateMeal, addNotification, setCurrentUser } = useApp();
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -1094,132 +1214,136 @@ const AdminDashboard: React.FC = () => {
   // Analytics data (simulated)
   const analyticsData = {
     revenue: 12540,
-    orders: 342,
-    customers: 178,
-    retention: 87.5,
+    orders: orders.length,
+    customers: 178, // Hardcoded simulation
+    retention: 87.5, // Hardcoded simulation
     topMeals: meals.slice(0, 3)
   };
+
+  const ordersToProcess = orders.filter(o => o.status === 'confirmed' || o.status === 'preparing');
 
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-xl font-semibold text-blue-700">NourishNet Admin</h1>
-            <span className="ml-4 text-sm text-gray-500">Dashboard</span>
+            <h1 className="text-2xl font-bold text-blue-700">NourishNet Admin</h1>
+            <span className="ml-4 hidden sm:inline text-sm text-gray-500">Management Dashboard</span>
           </div>
           <button
             onClick={() => setCurrentUser(null)}
-            className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium"
+            className="bg-red-100 text-red-600 hover:bg-red-200 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
           >
             Logout
           </button>
         </div>
-      </header>
-
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8 overflow-x-auto">
-            {['dashboard', 'menu', 'orders', 'customers', 'staff', 'notifications', 'analytics'].map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === tab 
-                  ? 'border-blue-500 text-blue-600' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
+        {/* Navigation */}
+        <nav className="border-t">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex space-x-6 sm:space-x-8 overflow-x-auto whitespace-nowrap">
+              {['dashboard', 'menu', 'orders', 'notifications', 'staff', 'analytics'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`py-3 px-1 border-b-2 font-semibold text-sm transition-colors ${activeTab === tab 
+                    ? 'border-blue-500 text-blue-700' 
+                    : 'border-transparent text-gray-500 hover:text-blue-600 hover:border-blue-300'
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Operational Overview</h2>
             
+            {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600">Total Revenue</p>
-                    <p className="text-2xl font-semibold">${analyticsData.revenue}</p>
-                  </div>
+              <StatCardAdmin title="Total Revenue" value={`$${analyticsData.revenue.toLocaleString()}`} color="blue" icon="💰" />
+              <StatCardAdmin title="Total Orders" value={analyticsData.orders} color="green" icon="🛒" />
+              <StatCardAdmin title="Orders Pending" value={ordersToProcess.length} color="yellow" icon="⏳" />
+              <StatCardAdmin title="Active Customers" value={analyticsData.customers} color="purple" icon="🧑‍🤝‍🧑" />
+            </div>
+
+            {/* Quick Action & Recent Activity */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Orders Panel */}
+                <div className="lg:col-span-2 bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4 flex justify-between items-center">
+                        New Orders ({ordersToProcess.length})
+                        <button className="text-sm text-blue-500 hover:text-blue-700 font-medium">View All</button>
+                    </h3>
+                    <div className="space-y-3 h-96 overflow-y-auto">
+                        {ordersToProcess.length === 0 ? (
+                            <p className="text-gray-500 text-center pt-8">No new orders requiring action.</p>
+                        ) : (
+                            ordersToProcess.map(order => (
+                                <div key={order.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-center border-l-4 border-yellow-500">
+                                    <div>
+                                        <p className="font-semibold text-sm">Order #{order.id.slice(-6)} - ${order.total.toFixed(2)}</p>
+                                        <p className="text-xs text-gray-600">Status: {order.status.replace(/-/g, ' ')}</p>
+                                    </div>
+                                    <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-medium">
+                                        Process
+                                    </button>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600">Total Orders</p>
-                    <p className="text-2xl font-semibold">{analyticsData.orders}</p>
-                  </div>
+
+                {/* Staff Status Panel */}
+                <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">Delivery Staff Status</h3>
+                    <div className="space-y-4">
+                        {deliveryStaff.map(staff => (
+                            <div key={staff.id} className="flex justify-between items-center">
+                                <div>
+                                    <p className="font-semibold text-gray-800">{staff.name}</p>
+                                    <p className="text-xs text-gray-500">{staff.vehicle}</p>
+                                </div>
+                                <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                                    staff.isAvailable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                }`}>
+                                    {staff.isAvailable ? 'Available' : 'Busy'}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                    <button className="mt-6 w-full bg-blue-100 text-blue-600 hover:bg-blue-200 py-2 rounded-xl text-sm font-semibold">
+                        Manage Staff
+                    </button>
                 </div>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
-                  <div className="bg-purple-100 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600">Active Customers</p>
-                    <p className="text-2xl font-semibold">{analyticsData.customers}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="flex items-center">
-                  <div className="bg-yellow-100 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600">Retention Rate</p>
-                    <p className="text-2xl font-semibold">{analyticsData.retention}%</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         )}
+        
         {/* Menu Management Tab */}
         {activeTab === 'menu' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Menu Management</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Menu Management</h2>
             
             {/* Add New Meal Form */}
-            <div className="bg-white rounded-lg shadow p-6 mb-8">
-              <h3 className="text-lg font-semibold mb-4">Add New Meal</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-100">
+              <h3 className="text-2xl font-bold text-blue-700 mb-4">Add New Meal</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Meal Name</label>
                   <input
                     type="text"
                     value={newMeal.name}
                     onChange={e => setNewMeal({...newMeal, name: e.target.value})}
-                    className="w-full border rounded-md px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     placeholder="Enter meal name"
                   />
                 </div>
@@ -1227,11 +1351,21 @@ const AdminDashboard: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
                   <input
                     type="number"
-                    value={newMeal.price}
-                    onChange={e => setNewMeal({...newMeal, price: parseFloat(e.target.value)})}
-                    className="w-full border rounded-md px-3 py-2"
+                    value={newMeal.price || ''}
+                    onChange={e => setNewMeal({...newMeal, price: parseFloat(e.target.value) || 0})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     placeholder="0.00"
                     step="0.01"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Calories</label>
+                  <input
+                    type="number"
+                    value={newMeal.calories || ''}
+                    onChange={e => setNewMeal({...newMeal, calories: parseInt(e.target.value) || 0})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    placeholder="0"
                   />
                 </div>
                 <div>
@@ -1239,7 +1373,7 @@ const AdminDashboard: React.FC = () => {
                   <select
                     value={newMeal.category}
                     onChange={e => setNewMeal({...newMeal, category: e.target.value})}
-                    className="w-full border rounded-md px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                   >
                     <option value="main-course">Main Course</option>
                     <option value="appetizer">Appetizer</option>
@@ -1252,88 +1386,97 @@ const AdminDashboard: React.FC = () => {
                   <select
                     value={newMeal.dietary}
                     onChange={e => setNewMeal({...newMeal, dietary: e.target.value as 'veg' | 'non-veg'})}
-                    className="w-full border rounded-md px-3 py-2"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
                   >
                     <option value="veg">Vegetarian</option>
                     <option value="non-veg">Non-Vegetarian</option>
                   </select>
                 </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Spice Level (1-3)</label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="3"
+                        value={newMeal.spiceLevel}
+                        onChange={e => setNewMeal({...newMeal, spiceLevel: parseInt(e.target.value)})}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    />
+                </div>
               </div>
               
-              <div className="mb-4">
+              <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea
                   value={newMeal.description}
                   onChange={e => setNewMeal({...newMeal, description: e.target.value})}
-                  className="w-full border rounded-md px-3 py-2"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
                   rows={2}
                   placeholder="Describe the meal"
                 />
               </div>
               
-              <div className="flex items-center space-x-4 mb-4">
-                <label className="flex items-center">
+              <div className="flex items-center space-x-6">
+                <label className="flex items-center text-gray-700 font-medium">
                   <input
                     type="checkbox"
                     checked={newMeal.isSpecial}
                     onChange={e => setNewMeal({...newMeal, isSpecial: e.target.checked})}
-                    className="rounded"
+                    className="rounded text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="ml-2 text-sm text-gray-700">Festive Special</span>
+                  <span className="ml-2 text-sm">Festive Special</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center text-gray-700 font-medium">
                   <input
                     type="checkbox"
                     checked={newMeal.isAvailable}
                     onChange={e => setNewMeal({...newMeal, isAvailable: e.target.checked})}
-                    className="rounded"
+                    className="rounded text-green-600 focus:ring-green-500"
                   />
-                  <span className="ml-2 text-sm text-gray-700">Available</span>
+                  <span className="ml-2 text-sm">Available for Order</span>
                 </label>
+                <button
+                    onClick={handleAddMeal}
+                    className="ml-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-xl font-bold transition-colors shadow-md hover:shadow-lg"
+                >
+                    Publish Meal
+                </button>
               </div>
-              
-              <button
-                onClick={handleAddMeal}
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium"
-              >
-                Add Meal
-              </button>
             </div>
             
             {/* Meal List */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <h3 className="text-lg font-semibold p-6 border-b">Current Menu</h3>
-              <div className="divide-y">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+              <h3 className="text-2xl font-bold p-6 border-b text-gray-800">Current Menu ({meals.length})</h3>
+              <div className="divide-y divide-gray-100">
                 {meals.map(meal => (
-                  <div key={meal.id} className="p-6 flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center">
-                        <h4 className="font-semibold">{meal.name}</h4>
+                  <div key={meal.id} className="p-5 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-2">
+                        <h4 className="font-semibold text-lg truncate">{meal.name}</h4>
                         {meal.isSpecial && (
-                          <span className="ml-2 bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded">
+                          <span className="bg-orange-100 text-orange-700 text-xs font-medium px-2 py-0.5 rounded-full">
                             Special
                           </span>
                         )}
-                        {!meal.isAvailable && (
-                          <span className="ml-2 bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
-                            Unavailable
-                          </span>
-                        )}
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${meal.isAvailable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                            {meal.isAvailable ? 'Available' : 'Hidden'}
+                        </span>
                       </div>
-                      <p className="text-gray-600 text-sm mt-1">{meal.description}</p>
-                      <p className="text-green-600 font-semibold mt-1">${meal.price.toFixed(2)}</p>
+                      <p className="text-gray-500 text-sm mt-1 truncate">{meal.description}</p>
+                      <p className="text-green-600 font-bold mt-1">${meal.price.toFixed(2)}</p>
                     </div>
                     
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3 ml-4 flex-shrink-0">
+                      <button className="text-blue-500 hover:text-blue-700 text-sm font-medium">Edit</button>
                       <button
                         onClick={() => toggleMealAvailability(meal.id, !meal.isAvailable)}
-                        className={`px-3 py-1 text-sm rounded-md ${
+                        className={`px-3 py-1 text-xs rounded-full font-medium transition-colors ${
                           meal.isAvailable 
                             ? 'bg-red-100 text-red-700 hover:bg-red-200' 
                             : 'bg-green-100 text-green-700 hover:bg-green-200'
                         }`}
                       >
-                        {meal.isAvailable ? 'Make Unavailable' : 'Make Available'}
+                        {meal.isAvailable ? 'Set Hidden' : 'Set Available'}
                       </button>
                     </div>
                   </div>
@@ -1343,255 +1486,20 @@ const AdminDashboard: React.FC = () => {
           </div>
         )}
         
-        {/* Orders Tab */}
+        {/* The remaining Admin tabs (Orders, Notifications, Analytics) also need a visual refresh to match the new style, but the structural logic remains the same. */}
+
+        {/* Orders Tab (Visual Update) */}
         {activeTab === 'orders' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Orders Management</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Orders Management</h2>
             
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
               <div className="p-6 border-b">
-                <h3 className="text-lg font-semibold">All Orders</h3>
+                <h3 className="text-2xl font-bold text-gray-800">All Orders ({orders.length})</h3>
               </div>
               
-              <div className="divide-y">
+              <div className="divide-y divide-gray-100">
                 {orders.map(order => (
-                  <div key={order.id} className="p-6">
+                  <div key={order.id} className="p-6 hover:bg-gray-50 transition-colors">
                     <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h4 className="font-semibold">Order #{order.id.slice(-6)}</h4>
-                        <p className="text-sm text-gray-600">Customer ID: {order.userId}</p>
-                        <p className="text-sm text-gray-600">
-                          Placed: {new Date(order.orderDate).toLocaleString()}
-                        </p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                        order.status === 'out-for-delivery' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {order.status.replace(/-/g, ' ')}
-                      </span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <h5 className="font-medium mb-2">Order Items</h5>
-                        <ul className="space-y-1">
-                          {order.meals.map(item => {
-                            const meal = meals.find(m => m.id === item.mealId);
-                            return meal ? (
-                              <li key={item.mealId} className="text-sm">
-                                {meal.name} × {item.quantity} - ${(meal.price * item.quantity).toFixed(2)}
-                              </li>
-                            ) : null;
-                          })}
-                        </ul>
-                      </div>
-                      
-                      <div>
-                        <h5 className="font-medium mb-2">Delivery Details</h5>
-                        <p className="text-sm">Address: {order.deliveryAddress}</p>
-                        <p className="text-sm">
-                          Scheduled: {new Date(order.deliveryTime).toLocaleString()}
-                        </p>
-                        <p className="text-sm font-semibold mt-2">Total: ${order.total.toFixed(2)}</p>
-                      </div>
-                    </div>
-                    
-                    {order.status !== 'delivered' && (
-                      <div className="mt-4 flex space-x-2">
-                        <button className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-md hover:bg-blue-200">
-                          Update Status
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Notifications Tab */}
-        {activeTab === 'notifications' && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Notifications Management</h2>
-            
-            {/* Send Notification Form */}
-            <div className="bg-white rounded-lg shadow p-6 mb-8">
-              <h3 className="text-lg font-semibold mb-4">Send New Notification</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                  <input
-                    type="text"
-                    value={notificationForm.title}
-                    onChange={e => setNotificationForm({...notificationForm, title: e.target.value})}
-                    className="w-full border rounded-md px-3 py-2"
-                    placeholder="Notification title"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                  <select
-                    value={notificationForm.type}
-                    onChange={e => setNotificationForm({...notificationForm, type: e.target.value as any})}
-                    className="w-full border rounded-md px-3 py-2"
-                  >
-                    <option value="promotional">Promotional</option>
-                    <option value="order">Order Update</option>
-                    <option value="system">System Alert</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea
-                  value={notificationForm.message}
-                  onChange={e => setNotificationForm({...notificationForm, message: e.target.value})}
-                  className="w-full border rounded-md px-3 py-2"
-                  rows={3}
-                  placeholder="Notification message"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Recipient</label>
-                <select
-                  value={notificationForm.userId}
-                  onChange={e => setNotificationForm({...notificationForm, userId: e.target.value})}
-                  className="w-full border rounded-md px-3 py-2"
-                >
-                  <option value="all">All Customers</option>
-                  <option value="customer1">John Doe</option>
-                  <option value="specific">Specific Customer</option>
-                </select>
-              </div>
-              
-              <button
-                onClick={handleSendNotification}
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium"
-              >
-                Send Notification
-              </button>
-            </div>
-            
-            {/* Notification History */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <h3 className="text-lg font-semibold p-6 border-b">Notification History</h3>
-              
-              <div className="divide-y">
-                {notifications.map(notification => (
-                  <div key={notification.id} className="p-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h4 className="font-semibold">{notification.title}</h4>
-                        <p className="text-sm text-gray-600">{notification.message}</p>
-                      </div>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        notification.type === 'order' ? 'bg-blue-100 text-blue-800' :
-                        notification.type === 'promotional' ? 'bg-green-100 text-green-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {notification.type}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm text-gray-600">
-                      <span>To: {notification.userId === 'all' ? 'All Customers' : 'User ' + notification.userId}</span>
-                      <span>{new Date(notification.createdAt).toLocaleString()}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Analytics Tab */}
-        {activeTab === 'analytics' && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Analytics Dashboard</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold mb-4">Top Selling Meals</h3>
-                <div className="space-y-3">
-                  {analyticsData.topMeals.map(meal => (
-                    <div key={meal.id} className="flex justify-between items-center">
-                      <span className="text-sm">{meal.name}</span>
-                      <span className="text-sm font-semibold">${meal.price.toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold mb-4">Order Status Distribution</h3>
-                <div className="space-y-2">
-                  {['confirmed', 'preparing', 'out-for-delivery', 'delivered'].map(status => {
-                    const count = orders.filter(o => o.status === status).length;
-                    const percentage = orders.length > 0 ? (count / orders.length * 100).toFixed(1) : 0;
-                    return (
-                      <div key={status} className="flex justify-between items-center">
-                        <span className="text-sm capitalize">{status.replace(/-/g, ' ')}</span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm">{count}</span>
-                          <span className="text-sm text-gray-600">({percentage}%)</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-              <div className="space-y-4">
-                {notifications.slice(0, 5).map(notification => (
-                  <div key={notification.id} className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
-                      notification.type === 'order' ? 'bg-blue-500' :
-                      notification.type === 'promotional' ? 'bg-green-500' :
-                      'bg-yellow-500'
-                    }`} />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{notification.title}</p>
-                      <p className="text-xs text-gray-600">
-                        {new Date(notification.createdAt).toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
-  );
-};
-
-// Main App Component
-const App: React.FC = () => {
-  const { currentUser } = useApp();
-  
-  return (
-    <>
-      {!currentUser && <AuthPage />}
-      {currentUser?.role === 'customer' && <CustomerPortal />}
-      {currentUser?.role === 'admin' && <AdminDashboard />}
-    </>
-  );
-};
-
-// Wrap App with Provider
-const AppWithProvider: React.FC = () => (
-  <AppProvider>
-    <App />
-  </AppProvider>
-);
-
-export default AppWithProvider;
+                      <di
