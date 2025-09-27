@@ -239,7 +239,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       addNotification({
         userId: 'all',
         title: 'New Meal Added',
-        message: `Check out our new ${mealData.name} now available!`,
+        message: Check out our new ${mealData.name} now available!,
         type: 'promotional',
         isRead: false
       });
@@ -265,7 +265,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     addNotification({
       userId: orderData.userId,
       title: 'Order Placed',
-      message: `Your order #${newOrder.id} has been placed successfully.`,
+      message: Your order #${newOrder.id} has been placed successfully.,
       type: 'order',
       isRead: false
     });
@@ -526,12 +526,6 @@ const AuthPage: React.FC = () => {
             />
           </div>
 
-          {isAdmin && isLogin && (
-            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded text-sm">
-              Admin credentials: username: admin123, password: welcome123
-            </div>
-          )}
-
           <button
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
@@ -557,12 +551,6 @@ const AuthPage: React.FC = () => {
               className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded text-sm"
             >
               Demo Customer
-            </button>
-            <button
-              onClick={() => handleDemoLogin('admin')}
-              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded text-sm"
-            >
-              Demo Admin
             </button>
           </div>
         </div>
@@ -594,14 +582,14 @@ const CustomerPortal: React.FC = () => {
       updatedCart[existingItemIndex] = {
         ...updatedCart[existingItemIndex],
         quantity: updatedCart[existingItemIndex].quantity + 1,
-        customization: `Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}`
+        customization: Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}
       };
       setCart(updatedCart);
     } else {
       setCart([...cart, {
         mealId: customizationModal.meal.id,
         quantity: 1,
-        customization: `Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}`
+        customization: Spice level: ${customizationOptions.spiceLevel}. Notes: ${customizationOptions.notes}
       }]);
     }
     
@@ -712,8 +700,8 @@ const CustomerPortal: React.FC = () => {
               {meals.filter(meal => meal.isAvailable).map(meal => (
                 <div key={meal.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                   <img 
-                    src={`https://placeholder-image-service.onrender.com/image/300x200?prompt=food%20${encodeURIComponent(meal.name)}&id=${meal.id}`} 
-                    alt={`Delicious ${meal.name} served on a plate`}
+                    src={https://placeholder-image-service.onrender.com/image/300x200?prompt=food%20${encodeURIComponent(meal.name)}&id=${meal.id}} 
+                    alt={Delicious ${meal.name} served on a plate}
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-4">
@@ -901,7 +889,7 @@ const CustomerPortal: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {userNotifications.map(notification => (
-                  <div key={notification.id} className={`bg-white rounded-lg shadow-md p-4 ${notification.isRead ? 'opacity-75' : 'border-l-4 border-blue-500'}`}>
+                  <div key={notification.id} className={bg-white rounded-lg shadow-md p-4 ${notification.isRead ? 'opacity-75' : 'border-l-4 border-blue-500'}}>
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-semibold">{notification.title}</h3>
@@ -944,7 +932,7 @@ const CustomerPortal: React.FC = () => {
             {cart.map(item => {
               const meal = meals.find(m => m.id === item.mealId);
               return meal ? (
-                <div key={`${item.mealId}-${item.customization}`} className="flex justify-between items-start py-3 border-b">
+                <div key={${item.mealId}-${item.customization}} className="flex justify-between items-start py-3 border-b">
                   <div className="flex-1">
                     <p className="font-medium">{meal.name} × {item.quantity}</p>
                     {item.customization && (
