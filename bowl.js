@@ -80,6 +80,9 @@ interface AppContextType {
   addMeal: (meal: Omit<Meal, 'id'>) => void;
   updateMeal: (id: string, updates: Partial<Meal>) => void;
   placeOrder: (order: Omit<Order, 'id' | 'status' | 'orderDate'>) => void;
+  login: (email: string, password: string, isAdmin?: boolean) => boolean;
+  register: (name: string, email: string, password: string, isAdmin?: boolean) => boolean;
+  logout: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -268,6 +271,88 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     });
   };
 
+  const login = (email: string, password: string, isAdmin: boolean = false): boolean => {
+    if (isAdmin) {
+      if (email === 'admin123' && password === 'welcome123') {
+        setCurrentUser({
+          id: 'admin1',
+          name: 'Admin User',
+          email: 'admin@nourishnet.com',
+          role: 'admin'
+        });
+        return true;
+      }
+      return false;
+    }
+    
+    // For customers, check localStorage
+    const users = JSON.parse(localStorage.getItem('nourishnet-users') || '[]');
+    const user = users.find((u: any) => u.email === email && u.password === password);
+    
+    if (user) {
+      setCurrentUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: 'customer',
+        preferences: user.preferences,
+        subscription: user.subscription
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const register = (name: string, email: string, password: string, isAdmin: boolean = false): boolean => {
+    if (isAdmin) {
+      // Only allow admin registration with specific credentials
+      return false;
+    }
+    
+    const users = JSON.parse(localStorage.getItem('nourishnet-users') || '[]');
+    
+    // Check if user already exists
+    if (users.some((u: any) => u.email === email)) {
+      return false;
+    }
+    
+    const newUser = {
+      id: Date.now().toString(),
+      name,
+      email,
+      password,
+      preferences: {
+        dietary: [],
+        spiceLevel: 2,
+        allergies: [],
+        calorieTarget: 2000
+      },
+      subscription: {
+        plan: 'weekly',
+        status: 'active',
+        nextRenewal: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    };
+    
+    users.push(newUser);
+    localStorage.setItem('nourishnet-users', JSON.stringify(users));
+    
+    setCurrentUser({
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+      role: 'customer',
+      preferences: newUser.preferences,
+      subscription: newUser.subscription
+    });
+    
+    return true;
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+  };
+
   return (
     <AppContext.Provider value={{
       currentUser,
@@ -283,7 +368,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       addNotification,
       addMeal,
       updateMeal,
-      placeOrder
+      placeOrder,
+      login,
+      register,
+      logout
     }}>
       {children}
     </AppContext.Provider>
@@ -298,37 +386,66 @@ const useApp = () => {
   return context;
 };
 
-// Landing Page Component
-const LandingPage: React.FC = () => {
-  const { setCurrentUser } = useApp();
-  
-  const handleCustomerLogin = () => {
-    setCurrentUser({
-      id: 'customer1',
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'customer',
-      preferences: {
-        dietary: ['veg'],
-        spiceLevel: 2,
-        allergies: ['nuts'],
-        calorieTarget: 2000
-      },
-      subscription: {
-        plan: 'weekly',
-        status: 'active',
-        nextRenewal: '2023-11-15'
+// Authentication Component
+const AuthPage: React.FC = () => {
+  const { login, register, setCurrentUser } = useApp();
+  const [isLogin, setIsLogin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (isLogin) {
+      const success = login(formData.email, formData.password, isAdmin);
+      if (!success) {
+        setError(isAdmin ? 'Invalid admin credentials' : 'Invalid email or password');
       }
-    });
+    } else {
+      if (!formData.name) {
+        setError('Name is required');
+        return;
+      }
+      const success = register(formData.name, formData.email, formData.password, isAdmin);
+      if (!success) {
+        setError(isAdmin ? 'Admin registration not allowed' : 'Email already exists');
+      }
+    }
   };
-  
-  const handleAdminLogin = () => {
-    setCurrentUser({
-      id: 'admin1',
-      name: 'Admin User',
-      email: 'admin@nourishnet.com',
-      role: 'admin'
-    });
+
+  const handleDemoLogin = (role: 'customer' | 'admin') => {
+    if (role === 'customer') {
+      setCurrentUser({
+        id: 'customer1',
+        name: 'John Doe',
+        email: 'john@example.com',
+        role: 'customer',
+        preferences: {
+          dietary: ['veg'],
+          spiceLevel: 2,
+          allergies: ['nuts'],
+          calorieTarget: 2000
+        },
+        subscription: {
+          plan: 'weekly',
+          status: 'active',
+          nextRenewal: '2023-11-15'
+        }
+      });
+    } else {
+      setCurrentUser({
+        id: 'admin1',
+        name: 'Admin User',
+        email: 'admin@nourishnet.com',
+        role: 'admin'
+      });
+    }
   };
 
   return (
@@ -339,27 +456,116 @@ const LandingPage: React.FC = () => {
       </div>
       
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-center mb-6">Choose Your Portal</h2>
+        <div className="flex justify-center mb-6">
+          <div className="flex bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setIsAdmin(false)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                !isAdmin ? 'bg-green-600 text-white' : 'text-gray-600'
+              }`}
+            >
+              Customer
+            </button>
+            <button
+              onClick={() => setIsAdmin(true)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                isAdmin ? 'bg-blue-600 text-white' : 'text-gray-600'
+              }`}
+            >
+              Admin
+            </button>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-semibold text-center mb-6">
+          {isLogin ? 'Sign In' : 'Sign Up'} as {isAdmin ? 'Admin' : 'Customer'}
+        </h2>
         
-        <div className="space-y-4">
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLogin && !isAdmin && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={e => setFormData({...formData, name: e.target.value})}
+                className="w-full border rounded-md px-3 py-2"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={e => setFormData({...formData, email: e.target.value})}
+              className="w-full border rounded-md px-3 py-2"
+              placeholder={isAdmin ? "Enter admin username" : "Enter your email"}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              value={formData.password}
+              onChange={e => setFormData({...formData, password: e.target.value})}
+              className="w-full border rounded-md px-3 py-2"
+              placeholder={isAdmin ? "Enter admin password" : "Enter your password"}
+              required
+            />
+          </div>
+
+          {isAdmin && isLogin && (
+            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded text-sm">
+              Admin credentials: username: admin123, password: welcome123
+            </div>
+          )}
+
           <button
-            onClick={handleCustomerLogin}
+            type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
           >
-            Customer Portal
+            {isLogin ? 'Sign In' : 'Sign Up'}
           </button>
-          
+        </form>
+
+        <div className="mt-4 text-center">
           <button
-            onClick={handleAdminLogin}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+            onClick={() => setIsLogin(!isLogin)}
+            className="text-blue-600 hover:text-blue-800 text-sm"
           >
-            Admin Dashboard
+            {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
           </button>
         </div>
-        
-        <p className="text-center text-gray-500 mt-6 text-sm">
-          Select a portal to continue. This demo uses simulated login.
-        </p>
+
+        <div className="mt-6 border-t pt-4">
+          <p className="text-center text-gray-500 text-sm mb-2">Quick demo access:</p>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => handleDemoLogin('customer')}
+              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded text-sm"
+            >
+              Demo Customer
+            </button>
+            <button
+              onClick={() => handleDemoLogin('admin')}
+              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded text-sm"
+            >
+              Demo Admin
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -452,7 +658,10 @@ const CustomerPortal: React.FC = () => {
               )}
             </button>
             <button
-              onClick={() => setCurrentUser(null)}
+              onClick={() => {
+                setCurrentUser(null);
+                // Clear any additional auth state if needed
+              }}
               className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium"
             >
               Logout
@@ -1383,7 +1592,7 @@ const App: React.FC = () => {
   
   return (
     <>
-      {!currentUser && <LandingPage />}
+      {!currentUser && <AuthPage />}
       {currentUser?.role === 'customer' && <CustomerPortal />}
       {currentUser?.role === 'admin' && <AdminDashboard />}
     </>
