@@ -3,7 +3,7 @@
 A modern web application for tiffin delivery services with **logistics optimization** and **food waste reduction**. Built with React, Firebase, and Tailwind CSS.
 
 **Team Members:**
-1. Darshan
+1. Darshan Patel
 2. Satyam Kantode  
 3. Sukhdeep Deshmukh
 4. Rudra Sane
