@@ -1,6 +1,12 @@
-# 🍱 Tiffin Logistics MVP
+# 🍱 Tiffin Logistics MVP - BitNBuild'25
 
 A modern web application for tiffin delivery services with **logistics optimization** and **food waste reduction**. Built with React, Firebase, and Tailwind CSS.
+
+**Team Members:**
+1. Darshan
+2. Satyam Kantode  
+3. Sukhdeep Deshmukh
+4. Rudra Sane
 
 ![Tiffin Logistics](https://img.shields.io/badge/React-18.2.0-blue)
 ![Firebase](https://img.shields.io/badge/Firebase-9.17.1-orange)
