@@ -70,7 +70,89 @@ tiffin-logistics-mvp/
 
 ```bash
 git clone <repository-url>
+# Tiffin Logistics MVP - Hackathon Ready Food Delivery System
+
+A comprehensive full-stack web application for managing tiffin (home food) delivery services. Built with Flask, SQLite, and modern web technologies.
+
+## 🚀 Features
+
+### Customer Features
+- **Order Management**: Place daily meal orders (lunch/dinner)
+- **Meal Planning**: Skip or confirm daily meals in advance
+- **Festive Specials**: Browse and order special festival menus
+- **Real-time Tracking**: Track delivery status with Google Maps integration
+- **Profile Management**: Update preferences and delivery addresses
+
+### Vendor Features
+- **Customer Management**: Add and manage customer profiles
+- **Order Processing**: View, update, and manage all orders
+- **Route Optimization**: AI-powered delivery route optimization
+- **Analytics Dashboard**: Demand prediction and waste analysis
+- **Reporting**: Generate CSV and PDF reports
+
+### System Features
+- **QR Code Tracking**: Track tiffin returns with QR codes
+- **AI Analytics**: Demand forecasting and waste pattern analysis
+- **Route Optimization**: Google Maps API integration for optimal delivery routes
+- **Responsive Design**: Mobile-friendly Bootstrap UI
+- **Demo Ready**: Pre-populated with sample data
+
+## 🛠 Technology Stack
+
+- **Backend**: Python Flask 2.3.3
+- **Database**: SQLite (for easy deployment)
+- **Frontend**: HTML5, Bootstrap 5.3, JavaScript
+- **Icons**: Font Awesome 6.4
+- **Charts**: Chart.js for analytics visualization
+- **QR Codes**: Python qrcode library
+- **Reports**: ReportLab for PDF generation
+- **Maps**: Google Maps JavaScript API
+
+## 📋 Prerequisites
+
+- Python 3.8 or higher
+- pip (Python package installer)
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+
+## 🚀 Quick Start
+
+### 1. Navigate to Project Directory
+```bash
 cd tiffin-logistics-mvp
+```
+
+### 2. Create Virtual Environment (Recommended)
+```bash
+# Windows
+python -m venv tiffin_env
+tiffin_env\Scripts\activate
+
+# macOS/Linux
+python3 -m venv tiffin_env
+source tiffin_env/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Application
+```bash
+python app.py
+```
+
+The application will start on `http://localhost:5000`
+
+## 🎭 Demo Credentials
+
+### Customers
+- **ID: 1** - John Doe (Vegetarian)
+- **ID: 2** - Jane Smith (Non-Vegetarian) 
+- **ID: 3** - Bob Johnson (Vegan)
+
+### Vendor
+- **ID: 1** - Tiffin Express (Central Kitchen, City)
 npm install
 ```
 

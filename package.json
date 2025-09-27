@@ -2,6 +2,7 @@
   "name": "tiffin-logistics-mvp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://darshan-0610.github.io/BitNBuild-25_Bytr",
   "description": "Hackathon-ready MVP for tiffin services with logistics optimization and food waste reduction",
   "main": "src/index.js",
   "scripts": {
@@ -12,7 +13,9 @@
     "firebase:deploy": "firebase deploy",
     "firebase:serve": "firebase serve",
     "functions:serve": "firebase functions:serve",
-    "functions:deploy": "firebase deploy --only functions"
+    "functions:deploy": "firebase deploy --only functions",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.15.1",
@@ -41,7 +44,8 @@
     "@craco/craco": "^7.1.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "firebase-tools": "^11.21.0"
+    "firebase-tools": "^11.21.0",
+    "gh-pages": "^6.3.0"
   },
   "browserslist": {
     "production": [
